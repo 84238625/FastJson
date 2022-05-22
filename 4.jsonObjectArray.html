@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>json数据的嵌套</title>
+</head>
+<body>
+ <script type="text/javascript">
+     /**
+      * json数据是对象，对象值是数组
+      */
+     var jsonObject = {
+         "k1":["北京","天津","上海"],
+         "k2":["中国","美国","英国"]
+     };
+     //取出上海
+     console.log(jsonObject.k1[2]);
+     //分别取出k1和k2键的数组并遍历
+     for(var i = 0 ; i < jsonObject.k1.length ; i++){
+         console.log(jsonObject.k1[i]);
+     }
+     console.log("===============")
+     for(var i = 0 ; i < jsonObject.k2.length ; i++){
+        console.log(jsonObject.k2[i]);
+     }
+
+ </script>
+</body>
+</html>

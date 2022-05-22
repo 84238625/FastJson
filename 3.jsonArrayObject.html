@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>json数据的嵌套</title>
+
+</head>
+<body>
+        <script type="text/javascript">
+            /**
+             * json数组的元素是对象
+             * 数组定义两个元素，每个元素是对象
+             * 对象是键值对形式
+             */
+            var jsonArray=[
+                {"name":"张三","age":20},
+                {"name":"李四","age":22}
+            ];
+
+            //取出需要的数据，李四 22
+            console.log(jsonArray[1].name+"=="+jsonArray[1].age);
+
+            //便利数组，取出数组中的元素
+            for(var i = 0 ; i < jsonArray.length ; i++){
+                console.log(jsonArray[i].name+"=="+jsonArray[i].age);
+            }
+        </script>
+
+</body>
+</html>

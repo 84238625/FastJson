@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>json数据的嵌套</title>
+</head>
+<body>
+  <script type="text/javascript">
+      /**
+       * json的数据本质上是对象
+       * 对象的键是字符串，对象的值是数组
+       * 数组的元素是对象
+       */
+
+      var json = {
+          //键是k1，值是数组，数组的元素是对象
+        "k1":[
+            {"name":"张三","age":20},
+            {"name":"李四","age":22}
+        ],
+          "k2":[
+              {"name":"王五","age":24},
+              {"name":"赵六","age":26}
+          ]
+      };
+
+      //取出数据李四 22
+      console.log(json.k1[1].name+"=="+json.k1[1].age);
+
+      //遍历k2键对应的数组
+      for(var i = 0 ; i < json.k2.length ; i++){
+          console.log(json.k2[i].name+"=="+json.k2[i].age);
+      }
+  </script>
+
+</body>
+</html>
