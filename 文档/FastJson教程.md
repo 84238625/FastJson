@@ -49,7 +49,7 @@ k2
 9.9
 true
 
-### Json对象 格式 
+### Json对象 格式
 
 代码：
 
@@ -129,9 +129,9 @@ true
 ```
 
 输出 ：
- 李四==22
- 张三==20
- 李四==22
+李四==22
+张三==20
+李四==22
 
 ### json对象 嵌套数组
 
@@ -537,3 +537,247 @@ public class JsonToMap {
     }
 }
 ```
+
+
+
+## SerializerFeature枚举
+
+SerializerFeature枚举：进行序列化时，可以自己定义特殊需求
+
+JSON静态方法：toJSONString（）
+
+方法的参数：第一个是要序列化的对象，第二个参数是SerializerFeature枚举类型的可变参数
+
+SerializerFeature枚举的常量，做序列化的个性需求
+
+### 
+
+### WriteMapNullValue
+
+```
+枚举中的常量，序列化为null值的字段
+```
+
+```
+若对象属性不赋值，（为空），则默认序列化时不会显示空的key。代码如下
+```
+
+```java
+package com.FastJson.pojo.test;
+
+import com.FastJson.pojo.Student;
+import com.alibaba.fastjson.JSON;
+import org.junit.Test;
+
+import java.util.Date;
+
+public class TestFastJson2 {
+    @Test
+    //WriteMapNullValue 枚举中的常量，序列化null值的字段
+    public void testWriteMapNullValue(){
+        Student student = new Student();
+        student.setId(1);
+        student.setName("张三");
+        student.setAge(20);
+        student.setBirthday(getDate());
+        //student.setEmail();
+        //方法的参数上，添加枚举类型
+       String jsonString =  JSON.toJSONString(student);
+        System.out.println(jsonString);
+        }
+    public Date getDate(){
+        Date date = new Date();
+        return date;
+    }
+    }
+
+输出：{"age":20,"birthday":1654195880811,"id":1,"name":"张三"}
+```
+
+```
+若加了SerializerFeature，则会显示null的属性，代码如下
+```
+
+```java
+package com.FastJson.pojo.test;
+
+import com.FastJson.pojo.Student;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+import org.junit.Test;
+
+import java.util.Date;
+
+public class TestFastJson2 {
+    @Test
+    //WriteMapNullValue 枚举中的常量，序列化null值的字段
+    public void testWriteMapNullValue(){
+        Student student = new Student();
+        student.setId(1);
+        student.setName("张三");
+        student.setAge(20);
+        student.setBirthday(getDate());
+        //student.setEmail();
+        //方法的参数上，添加枚举类型
+       String jsonString =  JSON.toJSONString(student, SerializerFeature.WriteMapNullValue);
+        System.out.println(jsonString);
+        }
+    public Date getDate(){
+        Date date = new Date();
+        return date;
+    }
+    }
+
+输出：{"age":20,"birthday":1654195993943,"email":null,"id":1,"name":"张三"}
+```
+
+
+
+### WriteNullStringAsEmpty
+
+枚举的常量，序列化为null的字段，值序列化为" "
+
+```java
+package com.FastJson.pojo.test;
+
+import com.FastJson.pojo.Student;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+import org.junit.Test;
+
+import java.util.Date;
+
+
+
+public class TestFastJson2 {
+    @Test
+    //序列化为null的字段，值序列化为" "
+    public void testWriteNullStringAsEmpty() {
+        Student student = new Student();
+        student.setId(1);
+        student.setName("张三");
+        student.setAge(20);
+        student.setBirthday(getDate());
+        //student.setEmail();
+        //方法参数上，添加枚举类型
+        String jsonString = JSON.toJSONString(student, SerializerFeature.WriteNullStringAsEmpty);
+        System.out.println(jsonString);
+    }
+
+
+    public Date getDate(){
+        Date date = new Date();
+        return date;
+    }
+  }
+
+输出：{"age":20,"birthday":1654196534481,"email":"","id":1,"name":"张三"}
+
+```
+
+
+
+### WriteNullNumberAsZero
+
+枚举的常量，序列化为null的字段，值序列化为 0
+
+```java
+package com.FastJson.pojo.test;
+
+import com.FastJson.pojo.Student;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+import org.junit.Test;
+
+import java.util.Date;
+
+
+
+public class TestFastJson2 {
+
+    @Test
+    //WriteNullNumberAsZero 枚举的常量，序列化自动值为null，序列化为0
+    public void tetsWriteNullNumberAsZero(){
+        Student student = new Student();
+        student.setId(1);
+        student.setName("张三");
+       // student.setAge(20);
+        student.setBirthday(getDate());
+        student.setEmail("zs@sina.com");
+        //方法参数上，加上枚举类型
+        String jsonString =  JSON.toJSONString(student,SerializerFeature.WriteNullNumberAsZero);
+        System.out.println(jsonString);
+    }
+
+    public Date getDate(){
+        Date date = new Date();
+        return date;
+    }
+    }
+
+输出：{"age":0,"birthday":1654197005501,"email":"zs@sina.com","id":1,"name":"张三"}
+
+```
+
+
+
+### WriteNullBooleanAsFalse
+
+枚举常量WriteNullBooleanAsFalse 字段为null输出false
+
+
+
+### WriteNullUseDateFormat
+
+枚举常量，序列化，日期的格式化
+
+
+
+### PrettyFormat
+
+枚举常量，序列化，格式化（json格式化，纵向输出）
+
+
+
+## JSonField注解
+
+该注解作用于方法上，字段上和参数上，可在序列化和反序列化时进行特性功能定制
+
+- 注解属性：name 序列化后的名字
+
+  ```java
+  @JSONField(name = "studentName" , ordinal =1)
+  privcate String name;
+  ```
+
+- 注解属性：ordinal 序列化后的顺序
+
+- 注解属性：format 序列化后的格式
+
+  ```java
+  @JSONField(format = false)
+  private String email;
+  ```
+
+- 注解属性：serialize是否序列化该字段
+
+  ```java
+  @JSONField(serialize = false)
+  private String email;
+  //不序列化该字段（序列化不显示该字段）
+  ```
+
+
+
+- 注解属性：deserialize是否反序列化该字段
+
+- 注解属性：serialzeFeatures序列化时的特性定义
+
+## JSONType注解
+
+该注解作用在类上，对该类的字段进行序列化和反序列化时的特性功能定制
+
+
+
+
+
